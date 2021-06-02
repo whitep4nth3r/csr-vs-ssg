@@ -7,20 +7,17 @@ import RichTextPageContent from "@components/RichTextPageContent";
 import MainLayout from "@layouts/main";
 import ContentWrapper from "@components/ContentWrapper";
 import PageContentWrapper from "@components/PageContentWrapper";
-import HeroBanner from "@components/HeroBanner";
 
 export default function BlogIndex(props) {
-  const { postSummaries, currentPage, totalPages, pageContent, preview } = props;
+  const { postSummaries, currentPage, totalPages, pageContent } = props;
 
   return (
-    <MainLayout preview={preview}>
+    <MainLayout>
       <PageMeta
         title={pageContent.title}
         description={pageContent.description}
         url={Config.pageMeta.blogIndex.url}
       />
-
-      {pageContent.heroBanner !== null && <HeroBanner data={pageContent.heroBanner} />}
 
       <ContentWrapper>
         <PageContentWrapper>
@@ -32,17 +29,14 @@ export default function BlogIndex(props) {
   );
 }
 
-export async function getStaticProps({ preview = false }) {
+export async function getStaticProps() {
   const postSummaries = await ContentfulBlogPost.getPaginatedSummaries(1);
-  const pageContent = await ContentfulPageContent.getBySlug(Config.pageMeta.blogIndex.slug, {
-    preview: preview,
-  });
+  const pageContent = await ContentfulPageContent.getBySlug(Config.pageMeta.blogIndex.slug);
 
   const totalPages = Math.ceil(postSummaries.total / Config.pagination.pageSize);
 
   return {
     props: {
-      preview,
       postSummaries: postSummaries.items,
       totalPages,
       currentPage: "1",

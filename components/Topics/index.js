@@ -1,5 +1,4 @@
 import TopicsStyles from "@styles/Topics.module.css";
-import Link from "next/link";
 import Accessibility from "./svg/a11y";
 import Career from "./svg/career";
 import Contentful from "./svg/contentful";
@@ -41,8 +40,6 @@ function getSvgForTopic(slug) {
 export default function Topics(props) {
   const { topics, selected, scroll } = props;
 
-  const linkClickScroll = scroll !== undefined ? scroll : true;
-
   return (
     <ul className={TopicsStyles.topics}>
       {topics.map((topic) => {
@@ -53,17 +50,16 @@ export default function Topics(props) {
 
         return (
           <li className={TopicsStyles.topics__topic} key={topic.sys.id}>
-            <Link href={`/topics/${topic.slug}`} scroll={linkClickScroll}>
-              <a
-                className={`${TopicsStyles.topics__topicLink} ${isSelectedClass}`}
-                aria-label={`View all ${topic.name} articles`}
-              >
-                <span className={TopicsStyles.topics__topicSvgContainer}>
-                  {getSvgForTopic(topic.slug)}
-                </span>
-                {topic.name}
-              </a>
-            </Link>
+            <a
+              href={`https://whitep4nth3r.com/topics/${topic.slug}`}
+              className={`${TopicsStyles.topics__topicLink} ${isSelectedClass}`}
+              aria-label={`View all ${topic.name} articles`}
+            >
+              <span className={TopicsStyles.topics__topicSvgContainer}>
+                {getSvgForTopic(topic.slug)}
+              </span>
+              {topic.name}
+            </a>
           </li>
         );
       })}

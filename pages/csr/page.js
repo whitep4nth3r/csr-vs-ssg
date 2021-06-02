@@ -8,7 +8,6 @@ import RichTextPageContent from "@components/RichTextPageContent";
 import MainLayout from "@layouts/main";
 import ContentWrapper from "@components/ContentWrapper";
 import PageContentWrapper from "@components/PageContentWrapper";
-import HeroBanner from "@components/HeroBanner";
 
 export default function BlogIndex() {
   const [postSummaries, setPostSummaries] = useState([]);
@@ -17,16 +16,14 @@ export default function BlogIndex() {
 
   useEffect(() => {
     (async function getData() {
-      console.log("RUNNING");
       const _postSummaries = await ContentfulBlogPost.getPaginatedSummaries(1);
-      setPostSummaries(_postSummaries);
+      setPostSummaries(_postSummaries.items);
+
+      const _totalPages = Math.ceil(_postSummaries.total / Config.pagination.pageSize);
+      setTotalPages(_totalPages);
 
       const _pageContent = await ContentfulPageContent.getBySlug(Config.pageMeta.blogIndex.slug);
       setPageContent(_pageContent);
-
-      const _totalPages = Math.ceil(postSummaries.total / Config.pagination.pageSize);
-
-      setTotalPages(_totalPages);
     })();
 
     return () => {
@@ -52,7 +49,7 @@ export default function BlogIndex() {
         )}
 
         {postSummaries.length > 0 && (
-          <PostList posts={postSummaries} totalPages={totalPages} currentPage={currentPage} />
+          <PostList posts={postSummaries} totalPages={totalPages} currentPage={1} />
         )}
       </ContentWrapper>
     </MainLayout>
