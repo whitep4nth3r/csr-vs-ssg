@@ -17,10 +17,6 @@ export const Config = {
       slug: "/blog",
     },
   },
-  pagination: {
-    pageSize: 6,
-    recentPostsSize: 6,
-  },
   menuLinks: [
     {
       displayName: "SSG",

@@ -12,15 +12,11 @@ import PageContentWrapper from "@components/PageContentWrapper";
 export default function BlogIndex() {
   const [postSummaries, setPostSummaries] = useState([]);
   const [pageContent, setPageContent] = useState(null);
-  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     (async function getData() {
-      const _postSummaries = await ContentfulBlogPost.getPaginatedSummaries(1);
+      const _postSummaries = await ContentfulBlogPost.getPaginatedSummaries();
       setPostSummaries(_postSummaries.items);
-
-      const _totalPages = Math.ceil(_postSummaries.total / Config.pagination.pageSize);
-      setTotalPages(_totalPages);
 
       const _pageContent = await ContentfulPageContent.getBySlug(Config.pageMeta.blogIndex.slug);
       setPageContent(_pageContent);
@@ -48,9 +44,7 @@ export default function BlogIndex() {
           </PageContentWrapper>
         )}
 
-        {postSummaries.length > 0 && (
-          <PostList posts={postSummaries} totalPages={totalPages} currentPage={1} />
-        )}
+        {postSummaries.length > 0 && <PostList posts={postSummaries} />}
       </ContentWrapper>
     </MainLayout>
   );

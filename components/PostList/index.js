@@ -1,16 +1,11 @@
 import ReactMarkdown from "react-markdown";
 import PublishedDateAndReadingTime from "@components/PublishedDateAndReadingTime";
 import Topics from "@components/Topics";
-import Pagination from "@components/PostList/Pagination";
 import ContentListStyles from "@styles/ContentList.module.css";
 import ReactMarkdownRenderers from "@utils/ReactMarkdownRenderers";
 import { Config } from "@utils/Config";
 
-export default function PostList(props) {
-  const { posts, currentPage, totalPages } = props;
-  const nextDisabled = parseInt(currentPage, 10) === parseInt(totalPages, 10);
-  const prevDisabled = parseInt(currentPage, 10) === 1;
-
+export default function PostList({ posts }) {
   return (
     <>
       <ol className={ContentListStyles.contentList}>
@@ -49,13 +44,6 @@ export default function PostList(props) {
           </li>
         ))}
       </ol>
-
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        nextDisabled={nextDisabled}
-        prevDisabled={prevDisabled}
-      />
     </>
   );
 }

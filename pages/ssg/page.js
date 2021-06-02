@@ -23,22 +23,19 @@ export default function BlogIndex(props) {
         <PageContentWrapper>
           <RichTextPageContent richTextBodyField={pageContent.body} />
         </PageContentWrapper>
-        <PostList posts={postSummaries} totalPages={totalPages} currentPage={currentPage} />
+        <PostList posts={postSummaries} />
       </ContentWrapper>
     </MainLayout>
   );
 }
 
 export async function getStaticProps() {
-  const postSummaries = await ContentfulBlogPost.getPaginatedSummaries(1);
+  const postSummaries = await ContentfulBlogPost.getPaginatedSummaries();
   const pageContent = await ContentfulPageContent.getBySlug(Config.pageMeta.blogIndex.slug);
-
-  const totalPages = Math.ceil(postSummaries.total / Config.pagination.pageSize);
 
   return {
     props: {
       postSummaries: postSummaries.items,
-      totalPages,
       currentPage: "1",
       pageContent,
     },
